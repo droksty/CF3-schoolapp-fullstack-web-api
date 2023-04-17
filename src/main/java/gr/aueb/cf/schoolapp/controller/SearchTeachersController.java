@@ -18,7 +18,7 @@ import gr.aueb.cf.schoolapp.model.Teacher;
 import gr.aueb.cf.schoolapp.service.ITeacherService;
 import gr.aueb.cf.schoolapp.service.TeacherServiceImpl;
 
-@WebServlet(name = "SearchTeachersController", value = "/schoolapp/search")
+@WebServlet(name = "SearchTeachersController", value = "/schoolapp/teachers/search")
 public class SearchTeachersController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     ITeacherDAO teacherDAO = new TeacherDAOImpl();

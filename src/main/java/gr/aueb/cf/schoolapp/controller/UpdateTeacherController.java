@@ -18,7 +18,7 @@ import gr.aueb.cf.schoolapp.service.TeacherServiceImpl;
 import gr.aueb.cf.schoolapp.service.exceptions.TeacherNotFoundException;
 import gr.aueb.cf.schoolapp.validation.Validator;
 
-@WebServlet("/schoolapp/update")
+@WebServlet("/schoolapp/teachers/update")
 public class UpdateTeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final ITeacherDAO teacherDAO = new TeacherDAOImpl();

@@ -17,7 +17,7 @@ import gr.aueb.cf.schoolapp.service.ITeacherService;
 import gr.aueb.cf.schoolapp.service.TeacherServiceImpl;
 import gr.aueb.cf.schoolapp.validation.Validator;
 
-@WebServlet("/schoolapp/insert")
+@WebServlet("/schoolapp/teachers/insert")
 public class InsertTeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final ITeacherDAO teacherDAO = new TeacherDAOImpl();

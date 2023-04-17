@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    text-align: center;
+}
+
+.wrapper {
+    /*border: 1px solid black;*/
+    margin: 20px auto;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    background-color: yellowgreen;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 1.5em;
+    text-decoration: none;
+}

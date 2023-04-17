@@ -7,6 +7,7 @@
   <meta charset="UTF-8">
   <title>Teachers Search</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/schoolapp/static/css/teachersmenu.css">
+  <style>body{background-color: yellowgreen}</style>
 </head>
 <body>
   <div class="center">
@@ -16,11 +17,11 @@
   <div class="center">
     <div class="search-wrapper">
       <div class="bot-gap">
-        <span class="title">Teachers Search</span>
+        <span class="title">Users Search</span>
       </div>
       <div class="bot-gap">
-        <form method="POST" action="${pageContext.request.contextPath}/schoolapp/teachers/search">
-          <input name="lastname" type="text" class="search rounded" placeholder="Insert teacher's lastname"
+        <form method="POST" action="${pageContext.request.contextPath}/schoolapp/users/search">
+          <input name="username" type="text" class="search rounded" placeholder="Insert username"
                  autofocus/>
           <br><br>
           <button class="search-btn rounded color-btn" type="submit">Search</button>
@@ -30,14 +31,14 @@
 
     <div class="insert-wrapper">
       <div class="bot-gap">
-        <span class="title">Teachers Insert</span>
+        <span class="title">User Insert</span>
       </div>
       <div class="bot-gap">
-        <form method="POST" action="${pageContext.request.contextPath}/schoolapp/teachers/insert">
-          <input name="lastname" type="text" value="${requestScope.insertedTeacher.lastname}"
-                 class="insert rounded" placeholder="Last name" autofocus/><br>
-          <input name="firstname" type="text" value="${requestScope.insertedteacher.firstname}"
-                 class="insert rounded" placeholder="First name" autofocus/>
+        <form method="POST" action="${pageContext.request.contextPath}/schoolapp/users/insert">
+          <input name="username" type="text" value="${requestScope.insertedUser.username}"
+                 class="insert rounded" placeholder="username" autofocus/><br>
+          <input name="password" type="text" value="${requestScope.insertedUser.password}"
+                 class="insert rounded" placeholder="password" autofocus/>
           <br><br>
           <button class="search-btn rounded color-btn" type="submit">Insert</button>
         </form>
@@ -52,8 +53,8 @@
   </div>
 
   <div class="center">
-    <c:if test="${requestScope.teachersNotFound}">
-      <p>No teachers found</p>
+    <c:if test="${requestScope.usersNotFound}">
+      <p>No users found</p>
     </c:if>
 
     <p>${requestScope.error}</p>

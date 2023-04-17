@@ -18,7 +18,7 @@ import gr.aueb.cf.schoolapp.service.TeacherServiceImpl;
 import gr.aueb.cf.schoolapp.service.exceptions.TeacherNotFoundException;
 
 
-@WebServlet("/schoolapp/delete")
+@WebServlet("/schoolapp/teachers/delete")
 public class DeleteTeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ITeacherDAO teacherDAO = new TeacherDAOImpl();

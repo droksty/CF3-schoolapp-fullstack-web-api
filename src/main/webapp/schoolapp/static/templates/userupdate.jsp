@@ -5,18 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Teacher Update</title>
+<title>User Update</title>
 </head>
 <body>
 	<div>
-		<form method="POST" action="${pageContext.request.contextPath}/schoolapp/teachers/update">
+		<form method="POST" action="${pageContext.request.contextPath}/schoolapp/users/update">
 			<label for="tid">Κωδικός</label>
 			<input id="tid" type="text" name="id" value="${param.id}" readonly><br>
-			<label for="firstname">Όνομα</label>
-			<input id="firstname" type="text" name="firstname" value="${param.firstname}"><br>
-			<label for="lastname">Επώνυμο</label>
-			<input id="lastname" type="text" name="lastname" value="${param.lastname}"><br><br>
-			<button type="submit">Update Teacher</button>
+			<label for="username">Username</label>
+			<input id="username" type="text" name="username" value="${param.username}"><br>
+			<label for="password">Password</label>
+			<input id="password" type="text" name="password" value="${param.password}"><br><br>
+			<button type="submit">Update User</button>
 		</form>	
 	</div>	
 

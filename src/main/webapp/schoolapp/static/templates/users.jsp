@@ -13,18 +13,18 @@
     <table>
       <tr>
         <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>username</th>
+        <th>password</th>
         <th>Delete</th>
         <th>Update</th>
       </tr>
-      <c:forEach var = "teacher" items = "${requestScope.teachers}">
+      <c:forEach var = "user" items = "${requestScope.users}">
         <tr>
-          <td>${teacher.id}</td>
-          <td>${teacher.firstname}</td>
-          <td>${teacher.lastname}</td>
-          <td><a href="${pageContext.request.contextPath}/schoolapp/teachers/delete?id=${teacher.id}&firstname=${teacher.firstname}&lastname=${teacher.lastname}">Delete</a></td>
-          <td><a href="${pageContext.request.contextPath}/schoolapp/static/templates/teacherupdate.jsp?id=${teacher.id}&firstname=${teacher.firstname}&lastname=${teacher.lastname}">Update</a></td>
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>${user.password}</td>
+          <td><a href="${pageContext.request.contextPath}/schoolapp/users/delete?id=${user.id}&username=${teacher.username}&password=${teacher.password}">Delete</a></td>
+          <td><a href="${pageContext.request.contextPath}/schoolapp/static/templates/userupdate.jsp?id=${user.id}&username=${user.username}&password=${user.password}">Update</a></td>
         </tr>
       </c:forEach>
     </table>

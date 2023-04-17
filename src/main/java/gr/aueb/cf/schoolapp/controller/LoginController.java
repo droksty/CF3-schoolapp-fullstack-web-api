@@ -57,6 +57,6 @@ public class LoginController extends HttpServlet {
 		System.out.println("Login gave: " + session.getId());
 		cookie.setMaxAge(session.getMaxInactiveInterval());
 		response.addCookie(cookie);
-		response.sendRedirect(request.getContextPath() + "/schoolapp/menu");
+		response.sendRedirect(request.getContextPath() + "/schoolapp/select");
 	}
 }

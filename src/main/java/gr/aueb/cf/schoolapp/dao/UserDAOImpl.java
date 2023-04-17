@@ -148,6 +148,8 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public boolean isUserValid(String username, String password) {
+
+        // Replace with jbcrypt code
         return true;
     }
 }
