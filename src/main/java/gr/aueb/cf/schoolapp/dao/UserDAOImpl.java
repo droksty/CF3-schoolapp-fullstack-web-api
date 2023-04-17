@@ -3,6 +3,8 @@ package gr.aueb.cf.schoolapp.dao;
 import gr.aueb.cf.schoolapp.dao.exceptions.UserDAOException;
 import gr.aueb.cf.schoolapp.model.User;
 import gr.aueb.cf.schoolapp.service.util.DBUtil;
+import gr.aueb.cf.schoolapp.service.util.PasswordEncrypter;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,81 +17,81 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public User insert(User user) throws UserDAOException {
-        String insertQuery = "INSERT INTO USERS (USERNAME, PASSWORD) VALUES (?, ?)";
+        String query = "INSERT INTO USERS (USERNAME, PASSWORD) VALUES (?, ?)";
 
         try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+             PreparedStatement preStmt = connection.prepareStatement(query)) {
 
             String username = user.getUsername();
             String password = user.getPassword();
 
-            statement.setString(1, username);
-            statement.setString(2, password);
-            statement.executeUpdate();
+            preStmt.setString(1, username);
+            preStmt.setString(2, PasswordEncrypter.hashPassword(password));
+            preStmt.executeUpdate();
             return user;
-        } catch (SQLException | ClassNotFoundException exception) {
-            //exception.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
             throw new UserDAOException("SQL Error in User " + user + " insertion");
         }
     }
 
     @Override
     public User update(User user) throws UserDAOException {
-        String updateQuery = "UPDATE USERS SET USERNAME = ?, PASSWORD = ? WHERE ID = ?";
+        String query = "UPDATE USERS SET USERNAME = ?, PASSWORD = ? WHERE ID = ?";
 
         try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+             PreparedStatement preStmt = connection.prepareStatement(query)) {
 
             int id = user.getId();
             String username = user.getUsername();
             String password = user.getPassword();
 
-            statement.setString(1, username);
-            statement.setString(2, password);
-            statement.setInt(3, id);
-            statement.executeUpdate();
+            preStmt.setString(1, username);
+            preStmt.setString(2, PasswordEncrypter.hashPassword(password));
+            preStmt.setInt(3, id);
+            preStmt.executeUpdate();
             return user;
-        } catch (SQLException | ClassNotFoundException exception) {
-            //exception.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
             throw new UserDAOException("SQL Error in User " + user.getUsername() + " update");
         }
     }
 
     @Override
     public void delete(int id) throws UserDAOException {
-        String deleteQuery = "DELETE FROM USERS WHERE ID = ?";
+        String query = "DELETE FROM USERS WHERE ID = ?";
 
         try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException | ClassNotFoundException exception) {
-            //exception.printStackTrace();
+             PreparedStatement preStmt = connection.prepareStatement(query)) {
+            preStmt.setInt(1, id);
+            preStmt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
             throw new UserDAOException("SQL Error in User with id = " + id  + " delete");
         }
     }
 
     @Override
     public List<User> getAll() throws UserDAOException {
-        String selectQuery = "SELECT * FROM USERS";
-        ResultSet resultSet;
+        String query = "SELECT * FROM USERS";
+        ResultSet rs;
         List<User> userList = new ArrayList<>();
 
         try (Connection connection = DBUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+            PreparedStatement preStmt = connection.prepareStatement(query)) {
 
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            rs = preStmt.executeQuery();
+            while (rs.next()) {
                 User user = new User(
-                        resultSet.getInt("ID"),
-                        resultSet.getString("USERNAME"),
-                        resultSet.getString("PASSWORD")
+                        rs.getInt("ID"),
+                        rs.getString("USERNAME"),
+                        rs.getString("PASSWORD")
                 );
                 userList.add(user);
             }
             return userList;
-        } catch (SQLException | ClassNotFoundException exception) {
-            //exception.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
             throw new UserDAOException("SQL Error in User select");
         }
     }
@@ -97,25 +99,25 @@ public class UserDAOImpl implements IUserDAO {
     @Override
     public User getByUsername(String username) throws UserDAOException {
         User user = null;
-        ResultSet resultSet;
-        String selectQuery = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE USERNAME = ?";
+        ResultSet rs;
+        String query = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE USERNAME = ?";
 
         try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+             PreparedStatement preStmt = connection.prepareStatement(query)) {
 
-            statement.setString(1, username);
-            resultSet = statement.executeQuery();
+            preStmt.setString(1, username);
+            rs = preStmt.executeQuery();
 
-            if (resultSet.next()) {
+            if (rs.next()) {
                 user = new User(
-                    resultSet.getInt("ID"),
-                    resultSet.getString("USERNAME"),
-                    resultSet.getString("PASSWORD")
+                    rs.getInt("ID"),
+                    rs.getString("USERNAME"),
+                    rs.getString("PASSWORD")
                 );
             }
             return user;
-        } catch (SQLException | ClassNotFoundException exception) {
-            //exception.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
             throw new UserDAOException("SQL Error in User with username " + username + " select");
         }
     }
@@ -123,25 +125,25 @@ public class UserDAOImpl implements IUserDAO {
     @Override
     public User getById(int id) throws UserDAOException {
         User user = null;
-        ResultSet resultSet;
-        String selectQuery = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE ID = ?";
+        ResultSet rs;
+        String query = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE ID = ?";
 
         try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+             PreparedStatement preStmt = connection.prepareStatement(query)) {
 
-            statement.setInt(1, id);
-            resultSet = statement.executeQuery();
+            preStmt.setInt(1, id);
+            rs = preStmt.executeQuery();
 
-            if (resultSet.next()) {
+            if (rs.next()) {
                 user = new User(
-                        resultSet.getInt("ID"),
-                        resultSet.getString("USERNAME"),
-                        resultSet.getString("PASSWORD")
+                        rs.getInt("ID"),
+                        rs.getString("USERNAME"),
+                        rs.getString("PASSWORD")
                 );
             }
             return user;
-        } catch (SQLException | ClassNotFoundException exception) {
-            //exception.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
             throw new UserDAOException("SQL Error in User with id " + id + " select");
         }
     }
@@ -149,7 +151,7 @@ public class UserDAOImpl implements IUserDAO {
     @Override
     public boolean isUserValid(String username, String password) {
 
-        // Replace with jbcrypt code
+        // Replace with proper Authentication via BCrypt.checkpw()
         return true;
     }
 }
