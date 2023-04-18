@@ -7,6 +7,7 @@ import gr.aueb.cf.schoolapp.dao.exceptions.UserDAOException;
 import gr.aueb.cf.schoolapp.dto.UserDTO;
 import gr.aueb.cf.schoolapp.service.IUserService;
 import gr.aueb.cf.schoolapp.service.UserServiceImpl;
+import gr.aueb.cf.schoolapp.validation.Validator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,13 +33,20 @@ public class InsertUserController extends HttpServlet {
 		userDTO.setPassword(password);
 		request.setAttribute("insertedUser", userDTO);
 		try {
-			// later
-//			String error = Validator.validate(teacherDTO);
+			// impl later
+//			String error = Validator.validate(userDTO);
 //			if (!error.equals("")) {
 //				request.setAttribute("error", error);
 //				request.getRequestDispatcher("/schoolapp/static/templates/teachersmenu.jsp")
 //						.forward(request, response);
 //			}
+			if (Validator.userExists(username)) {
+				request.setAttribute("error", "User already exists");
+				request.getRequestDispatcher("/schoolapp/static/templates/usersmenu.jsp").forward(request, response);
+				response.sendRedirect("/schoolapp/static/templates/usersmenu.jsp");
+				return;
+			}
+
 			userService.insertUser(userDTO);
 			request.getRequestDispatcher("/schoolapp/static/templates/userinserted.jsp")
 					.forward(request, response);

@@ -7,4 +7,4 @@ A Java EE Full Stack app with Web API developed for a Coding Factory course
 0.0.3 Add basic User controllers/jsps, without password hashing  
 0.0.4 Implemented password encryption for user/insert & user/update  
 0.0.5 Implemented user authentication with jbcrypt  
- 
+0.0.6 Implemented user validation for duplicate usernames 

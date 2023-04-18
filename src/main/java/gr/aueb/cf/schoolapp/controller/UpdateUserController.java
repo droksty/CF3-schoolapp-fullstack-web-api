@@ -42,12 +42,20 @@ public class UpdateUserController extends HttpServlet {
 		request.setAttribute("insertedUser", userDTO);
 		
 		try {
+			// impl later
 //			String error = Validator.validate(userDTO);
 //			if (!error.equals("")) {
 //				request.setAttribute("error", error);
-//				request.getRequestDispatcher("/schoolapp/static/templates/teachersmenu.jsp")
+//				request.getRequestDispatcher("/schoolapp/static/templates/usersmenu.jsp")
 //						.forward(request, response);
 //			}
+
+			if (Validator.userExists(username)) {
+				request.setAttribute("error", "User already exists");
+				request.getRequestDispatcher("/schoolapp/static/templates/usersmenu.jsp").forward(request, response);
+				response.sendRedirect("/schoolapp/static/templates/usersmenu.jsp");
+				return;
+			}
 			userService.updateUser(userDTO);
 			request.setAttribute("user", userDTO);
 			request.getRequestDispatcher("/schoolapp/static/templates/userupdated.jsp")
