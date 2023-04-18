@@ -13,5 +13,5 @@ public interface IUserDAO {
     List<User> getAll() throws UserDAOException;
     User getByUsername(String username) throws UserDAOException;
     User getById(int id) throws UserDAOException;
-    boolean isUserValid(String username, String password);
+    boolean isUserValid(String username, String password) throws UserDAOException;
 }

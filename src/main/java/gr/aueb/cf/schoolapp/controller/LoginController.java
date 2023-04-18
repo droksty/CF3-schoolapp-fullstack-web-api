@@ -1,6 +1,7 @@
 package gr.aueb.cf.schoolapp.controller;
 
 import gr.aueb.cf.schoolapp.authentication.AuthenticationProvider;
+import gr.aueb.cf.schoolapp.authentication.exceptions.AuthenticationProviderException;
 import gr.aueb.cf.schoolapp.dao.ITeacherDAO;
 import gr.aueb.cf.schoolapp.dao.TeacherDAOImpl;
 import gr.aueb.cf.schoolapp.dto.UserDTO;
@@ -35,10 +36,17 @@ public class LoginController extends HttpServlet {
 		userDTO.setUsername(email);
 		userDTO.setPassword(password);
 
-		User user = AuthenticationProvider.authenticate(userDTO);
+		User user = null;
+		try {
+			user = AuthenticationProvider.authenticate(userDTO);
+		} catch (AuthenticationProviderException e) {
+			//e.printStackTrace();
+			throw new RuntimeException("Error in User authentication");
+		}
 		if (user == null) {
 			System.out.println("Invalid login attempt. Username or password not valid");
 			response.sendRedirect(request.getContextPath() + "/login");
+			return;
 		}
 
 		// Retrieve the current session, and if one doesn't exist create it.

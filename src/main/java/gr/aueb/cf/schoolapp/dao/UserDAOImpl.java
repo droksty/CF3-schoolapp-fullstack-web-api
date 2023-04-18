@@ -2,6 +2,7 @@ package gr.aueb.cf.schoolapp.dao;
 
 import gr.aueb.cf.schoolapp.dao.exceptions.UserDAOException;
 import gr.aueb.cf.schoolapp.model.User;
+import gr.aueb.cf.schoolapp.service.exceptions.UserNotFoundException;
 import gr.aueb.cf.schoolapp.service.util.DBUtil;
 import gr.aueb.cf.schoolapp.service.util.PasswordEncrypter;
 import org.mindrot.jbcrypt.BCrypt;
@@ -149,9 +150,22 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     @Override
-    public boolean isUserValid(String username, String password) {
+    public boolean isUserValid(String username, String password) throws UserDAOException {
+        String query = "SELECT PASSWORD FROM USERS WHERE USERNAME = ?";
+        String hashedPassword = null;
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement preStmt = connection.prepareStatement(query)) {
 
-        // Replace with proper Authentication via BCrypt.checkpw()
-        return true;
+            preStmt.setString(1, username);
+            ResultSet rs = preStmt.executeQuery();
+
+            return rs.next() && BCrypt.checkpw(password, rs.getString("PASSWORD"));
+        } catch (SQLException | ClassNotFoundException e) {
+            //e.printStackTrace();
+            throw new UserDAOException("SQL Error in User with username " + username + " authentication");
+        }
     }
+
+
+
 }
